@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('opinions', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_persona');
-            $table->integer('edad');
-            $table->date('fecha_registro');
             $table->string('calificacion');
             $table->text('comentario');
-            $table->integer('numero_identificador');
             $table->foreignId('pelicula_id')->constrained('peliculas')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

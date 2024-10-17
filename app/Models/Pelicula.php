@@ -49,4 +49,10 @@ class Pelicula extends Model
     {
         return $this->hasMany(Opinion::class);
     }
+
+    public function averageRating()
+    {
+        // Asegúrate de que las calificaciones sean números, usa 'cast' si es necesario
+        return $this->opinions()->count() > 0 ? $this->opinions()->avg('calificacion') : 0;
+    }
 }

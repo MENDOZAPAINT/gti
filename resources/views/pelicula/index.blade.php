@@ -12,34 +12,25 @@
                     <x-link :href="route('peliculas.create')" :active="request()->routeIs('peliculas.create')">
                         {{ __('Agregar Peliculas') }}
                     </x-link>
-                    <div class="max-w-full mx-auto my-3">
-                        <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-2xl">
-                            <table class="w-full">
-                                <thead>
-                                    <tr class="bg-gradient-to-r from-purple-900 to-indigo-900 text-white">
-                                        <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">
-                                            Titulo
-                                        </th>
-                                        <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wider">
-                                            Genero
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($peliculas as $pelicula)
-                                        <tr
-                                            class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 fade-in">
-                                            <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">
-                                                {{ $pelicula->titulo_distribucion }}
-                                            </td>
-                                            <td class="px-6 py-4 whitespace-nowrap text-gray-700 dark:text-gray-300">
-                                                {{ $pelicula->genero }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-2">
+                        @foreach ($peliculas as $pelicula)
+                            <div
+                                class="bg-gradient-to-r from-gray-800 to-gray-900 dark:from-gray-900 dark:to-black text-white p-4 rounded-lg shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl">
+                                <h3 class="text-lg font-semibold mb-1">{{ $pelicula->titulo_distribucion }}</h3>
+                                <p class="text-sm">{{ $pelicula->resumen }}</p>
+                                <x-link :href="route('opiniones.create', ['pelicula_id' => $pelicula->id])" :active="request()->routeIs('opiniones.create')">
+                                    {{ __('Comentar') }}
+                                </x-link>
+                                {{-- <x-link :href="route('#', ['pelicula_id' => $pelicula->id])" :active="request()->routeIs('#')">
+                                    {{ __('Ver') }}
+                                </x-link> --}}
+
+                                <p class="text-sm">
+                                    Comentarios: {{ $pelicula->opinions->count() }}
+                                </p>
+                                <x-star name="calificacion" label="Calificación:" :stars="5" :rating="$pelicula->averageRating() ?? 0" />
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -47,19 +38,3 @@
     </div>
 </x-app-layout>
 
-
-<style>
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .fade-in {
-        animation: fadeIn 0.5s ease-out;
-    }
-</style>

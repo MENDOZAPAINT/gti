@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Opinion;
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
 
@@ -12,8 +13,9 @@ class PeliculaController extends Controller
      */
     public function index()
     {
-        $peliculas=Pelicula::all();
+        $peliculas = Pelicula::with('opinions')->get();
         return view('pelicula.index', compact('peliculas'));
+        
     }
 
     /**

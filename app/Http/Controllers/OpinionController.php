@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Opinion;
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;  // Para obtener el usuario autenticado
+
 
 class OpinionController extends Controller
 {
@@ -13,16 +15,19 @@ class OpinionController extends Controller
      */
     public function index()
     {
-        return view(view: 'opinion.index');
+        $peliculas = Pelicula::all();
+        return view(view: 'opinion.index', data: compact('peliculas'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $peliculas = Pelicula::all();
-        return view(view: 'opinion.create', data: compact(var_name: 'peliculas'));
+        $peliculaId = $request->input('pelicula_id');
+        $pelicula = Pelicula::findOrFail($peliculaId);
+
+        return view('opinion.create', compact('pelicula'));
     }
 
     /**
@@ -30,27 +35,21 @@ class OpinionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nombre_persona' => 'required|string|max:100',
-            'edad' => 'required|integer|min:0',
-            'fecha_registro' => 'required|date',
-            'calificacion' => 'required|string|max:1',
+        $validatedData = $request->validate([
+            'calificacion' => 'required|integer|min:1|max:5',
             'comentario' => 'required|string|max:1000',
-            'numero_identificador' => 'required|integer',
             'pelicula_id' => 'required|exists:peliculas,id',
         ]);
 
         Opinion::create([
-            'nombre_persona' => $request->nombre_persona,
-            'edad' => $request->edad,
-            'fecha_registro' => $request->fecha_registro,
-            'calificacion' => $request->calificacion,
-            'comentario' => $request->comentario,
-            'numero_identificador' => $request->numero_identificador,
-            'pelicula_id' => $request->pelicula_id,
+            'calificacion' => $validatedData['calificacion'],
+            'comentario' => $validatedData['comentario'],
+            'pelicula_id' => $validatedData['pelicula_id'],
+            'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('opiniones.index')->with('success', 'Opinión registrada con éxito.');
+        return redirect()->route('opiniones.index', $validatedData['pelicula_id'])
+            ->with('success', 'Tu opinión ha sido registrada con éxito.');
     }
 
     /**

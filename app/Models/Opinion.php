@@ -13,7 +13,9 @@ class Opinion extends Model
         'calificacion',
         'comentario',
         'numero_identificador',
-        'pelicula_id'
+        'pelicula_id',
+        'user_id'
+
     ];
 
     public function pelicula()

@@ -14,13 +14,11 @@ class OpinionSeeder extends Seeder
     public function run(): void
     {
         Opinion::create([
-            'nombre_persona' => 'Juan Pérez',
-            'edad' => 30,
-            'fecha_registro' => '2023-09-16',
             'calificacion' => 'Muy Buena',
             'comentario' => 'Una película emocionante con giros inesperados.',
-            'numero_identificador' => 1,
-            'pelicula_id' => 1
+            'pelicula_id' => 1,
+            'user_id' => 1
+
         ]);
     }
 }
