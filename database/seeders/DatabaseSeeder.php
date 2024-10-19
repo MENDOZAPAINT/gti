@@ -21,15 +21,15 @@ class DatabaseSeeder extends Seeder
             'password'=>'123456789'
         ]);
         $this->call([
-            peliculaSeeder::class,
-            directorSeeder::class,
-            actorSeeder::class,
-            personajeSeeder::class,
-            cineSeeder::class,
-            salaSeeder::class,
-            funcionSeeder::class,
-            promocionSeeder::class,
-            opinionSeeder::class,
+            PeliculaSeeder::class,
+            DirectorSeeder::class,
+            ActorSeeder::class,
+            PersonajeSeeder::class,
+            CineSeeder::class,
+            SalaSeeder::class,
+            FuncionSeeder::class,
+            PromocionSeeder::class,
+            OpinionSeeder::class,
         ]);
     }
 }
