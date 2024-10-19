@@ -56,48 +56,50 @@
                                 <x-nav-link :href="route('promociones.index')" :active="request()->routeIs('promociones.index')">
                                     {{ __('Promociones') }}
                                 </x-nav-link>
-                                <x-nav-link :href="route('opiniones.index')" :active="request()->routeIs('opiniones.index')">
-                                    {{ __('Opiniones') }}
-                                </x-nav-link>
                             </div>
                         </x-slot>
                     </x-dropdown>
                 </div>
             </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+            @auth
 
-                            <div class="ms-1">
-                                <x-icons.chevron />
 
-                            </div>
-                        </button>
-                    </x-slot>
+                <!-- Settings Dropdown -->
+                <div class="hidden sm:flex sm:items-center sm:ms-6">
+                    <x-dropdown align="right" width="48">
+                        <x-slot name="trigger">
+                            <button
+                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                                <div>{{ Auth::user()->name }}</div>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                                <div class="ms-1">
+                                    <x-icons.chevron />
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
+                                </div>
+                            </button>
+                        </x-slot>
 
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                                                this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                        <x-slot name="content">
+                            <x-dropdown-link :href="route('profile.edit')">
+                                {{ __('Profile') }}
                             </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
+
+                            <!-- Authentication -->
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <x-dropdown-link :href="route('logout')"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </x-dropdown-link>
+                            </form>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+            @endauth
+
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
@@ -133,7 +135,7 @@
             <x-responsive-nav-link :href="route('personajes.index')" :active="request()->routeIs('personajes.index')">
                 {{ __('Personajes') }}
             </x-responsive-nav-link>
-                        <x-responsive-nav-link :href="route('salas.index')" :active="request()->routeIs('salas.index')">
+            <x-responsive-nav-link :href="route('salas.index')" :active="request()->routeIs('salas.index')">
                 {{ __('Salas') }}
             </x-responsive-nav-link>
         </div>

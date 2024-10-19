@@ -18,7 +18,8 @@ class Pelicula extends Model
         'duracion',
         'calificacion',
         'fecha_estreno_santiago',
-        'resumen'
+        'resumen',
+        'imagen'
     ];
     public function directors()
     {

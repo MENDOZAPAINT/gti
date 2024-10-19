@@ -64,8 +64,8 @@
                                 <div>
                                     <x-input-label for="ano_produccion" :value="__('Año de producción')" />
                                     <x-text-input id="ano_produccion" class="block mt-1 w-full" type="number"
-                                        name="ano_produccion" :value="old('ano_produccion')" required autofocus
-                                        autocomplete="ano_produccion" min="1900" max="{{ date('Y') }}" />
+                                        name="ano_produccion" :value="old('ano_produccion')" required autofocus min="1900"
+                                        max="{{ date('Y') }}" step="1" placeholder="Ejemplo: 2023" />
                                 </div>
                                 <div>
                                     <x-input-label for="url_sitio_web" :value="__('URL del sitio web de la película')" />

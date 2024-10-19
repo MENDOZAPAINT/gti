@@ -26,9 +26,21 @@ class OpinionController extends Controller
     {
         $peliculaId = $request->input('pelicula_id');
         $pelicula = Pelicula::findOrFail($peliculaId);
-
-        return view('opinion.create', compact('pelicula'));
+    
+        // Obtener los últimos 10 comentarios con la relación al usuario
+        $opinions = $pelicula->opinions()->with('user')->latest()->take(10)->get();
+    
+        // Obtener el total de comentarios
+        $totalComentarios = $pelicula->opinions()->count();
+    
+        // Obtener el ID del usuario autenticado
+        $userId = Auth::id();
+    
+        return view('opinion.create', compact('pelicula', 'opinions', 'userId', 'totalComentarios'));
     }
+    
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -48,7 +60,7 @@ class OpinionController extends Controller
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('opiniones.index', $validatedData['pelicula_id'])
+        return redirect()->route('peliculas.index', $validatedData['pelicula_id'])
             ->with('success', 'Tu opinión ha sido registrada con éxito.');
     }
 

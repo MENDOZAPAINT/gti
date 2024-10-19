@@ -12,11 +12,10 @@ use App\Http\Controllers\PersonajeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\SalaController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index'])->name('/');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -40,6 +39,10 @@ Route::middleware('auth')->group(function () {
         'update' => 'peliculas.update',
         'destroy' => 'peliculas.destroy',
     ]);
+    Route::get('/pelicula/{id}/cines', [PeliculaController::class, 'cinesDisponibles'])->name('pelicula.cines');
+    // RESERVA DE PELICULAS
+    Route::post('/reservas/store', [PeliculaController::class, 'cinesDisponibles'])->name('reservas.store');
+
 
     Route::resource('directores', DirectorController::class)->names([
         'index' => 'directores.index',

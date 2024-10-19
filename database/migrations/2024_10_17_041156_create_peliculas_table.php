@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('calificacion');
             $table->date('fecha_estreno_santiago');
             $table->text('resumen');
+            $table->string('imagen')->nullable(); 
             $table->timestamps();
         });
     }

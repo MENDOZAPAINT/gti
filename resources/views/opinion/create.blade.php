@@ -8,58 +8,53 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+
+
+
+
+
+
                 <div class="p-2 text-gray-900 dark:text-gray-100">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mx-10 my-2">
+                        <!-- Primera columna: Detalles de la película -->
                         <div class="mx-0">
-                            <h2 class="text-xl font-bold py-2">Detalles de la pelicula</h2>
-
+                            <h2 class="text-xl font-bold py-2">Detalles de la película</h2>
                             <div class="max-w-lg mx-0">
                                 <div class="bg-gray-800 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden">
-                                    {{-- <img class="w-full h-48 object-cover" src="https://via.placeholder.com/300" alt="Imagen de la tarjeta"> --}}
                                     <div class="p-6">
                                         <h2 class="text-xl font-bold text-white mb-2">Título:
-                                            {{ $pelicula->titulo_original }}
-                                        </h2>
+                                            {{ $pelicula->titulo_original }}</h2>
                                         <div class="flex items-center justify-between">
-                                            <p class="text-gray-300 mb-4"> <strong class="text-white">Genero:</strong>
+                                            <p class="text-gray-300 mb-4"><strong class="text-white">Género:</strong>
                                                 {{ $pelicula->genero }}</p>
-                                            <p class="text-gray-300 mb-4">
-                                                <strong class="text-white">Idioma:</strong>
-                                                {{ $pelicula->idioma_original }}
-                                            </p>
+                                            <p class="text-gray-300 mb-4"><strong class="text-white">Idioma:</strong>
+                                                {{ $pelicula->idioma_original }}</p>
                                         </div>
 
                                         <div class="flex items-center justify-between">
-                                            <p class="text-gray-300 mb-4">
-                                                <strong class="text-white">Año de producción:</strong>
-                                                {{ $pelicula->ano_produccion }}
-                                            </p>
+                                            <p class="text-gray-300 mb-4"><strong class="text-white">Año de
+                                                    producción:</strong> {{ $pelicula->ano_produccion }}</p>
                                         </div>
-                                        <p class="text-gray-300 mb-4"> <strong class="text-white">Resumén:</strong>
+                                        <p class="text-gray-300 mb-4"><strong class="text-white">Resumén:</strong>
                                             {{ $pelicula->resumen }}</p>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
+                        <!-- Segunda columna: Comentario -->
                         <div class="">
-                            
-                            <h2 class="text-xl font-bold py-2">Comentario sobre la pelicula</h2>
-
+                            <h2 class="text-xl font-bold py-2">Comentario sobre la película</h2>
                             <form method="POST" action="{{ route('opiniones.store') }}">
                                 @csrf
                                 <div class="mb-4">
                                     <label for="comentario"
-                                        class="block text-sm font-medium text-gray-700 dark:text-white mb-2">
-                                        Comentario:</label>
+                                        class="block text-sm font-medium text-gray-700 dark:text-white mb-2">Comentario:</label>
                                     <x-textarea id="comentario" class="block mt-1 w-full" name="comentario" required
                                         autofocus :value="old('comentario')"></x-textarea>
                                 </div>
-                                <x-star-input name="calificacion" label="Calificación de la pelicula:" :stars="5"
+                                <x-star-input name="calificacion" label="Calificación de la película:" :stars="5"
                                     :initial-rating="0" />
-
 
                                 <input type="hidden" name="pelicula_id" value="{{ $pelicula->id }}">
 
@@ -70,14 +65,40 @@
                             </form>
                         </div>
 
+                        <!-- Segunda fila: Información adicional que ocupa todo el ancho -->
+                        <div class="col-span-full">
+                            <h2 class="text-xl font-bold py-2">Comentarios mas recientes</h2>
+                            <div class="bg-gray-800 dark:bg-gray-900 rounded-lg shadow-lg overflow-hidden p-6 relative">
+
+                                <!-- Total de comentarios estilizado y posicionado en la esquina -->
+                                <p
+                                    class="text-white text-sm bg-blue-900 rounded-full px-4 py-2 absolute right-4 top-4 shadow-md">
+                                    <strong>Total de comentarios:</strong> {{ $totalComentarios }}
+                                </p>
+
+                                @if ($opinions->isEmpty())
+                                    <p class="text-gray-300 mt-10">No hay comentarios para esta película.</p>
+                                @else
+                                    <ul class="mt-10">
+                                        @foreach ($opinions as $comentario)
+                                            <li class="mb-4">
+                                                <p class="text-gray-300"><span
+                                                        class="font-semibold text-white">{{ $comentario->user->name }}:</span>
+                                                    {{ $comentario->comentario }}
+                                                </p>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </div>
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
 
-
-
-        {{-- <x-star-input name="product-rating" label="Rate this product:" :stars="5" :initial-rating="3" /> --}}
 
 
 </x-app-layout>

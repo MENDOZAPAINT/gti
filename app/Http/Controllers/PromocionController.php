@@ -14,8 +14,11 @@ class PromocionController extends Controller
      */
     public function index()
     {
-        return view('promocion.index');
+        $promociones = Promocion::with(['pelicula', 'funcion'])->get(); 
+
+        return view('promocion.index', compact('promociones'));
     }
+
 
     /**
      * Show the form for creating a new resource.

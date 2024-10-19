@@ -13,7 +13,8 @@ class SalaController extends Controller
      */
     public function index()
     {
-        return view(view: 'sala.index');
+        $salas = Sala::with('cine')->get();
+        return view('sala.index', compact('salas'));
     }
 
     /**
@@ -21,7 +22,9 @@ class SalaController extends Controller
      */
     public function create()
     {
-        $cines = Cine::all();
+        // $cines = Cine::all();
+        $cines = Cine::with('peliculas')->get();
+
         return view('sala.create', compact('cines'));
     }
 

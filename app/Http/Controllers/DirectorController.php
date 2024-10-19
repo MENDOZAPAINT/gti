@@ -12,7 +12,8 @@ class DirectorController extends Controller
      */
     public function index()
     {
-        return view('director.index');
+        $directores=Director::all();
+        return view('director.index', compact('directores'));
     }
 
     /**

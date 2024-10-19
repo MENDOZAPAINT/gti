@@ -14,8 +14,45 @@ class PersonajeController extends Controller
      */
     public function index()
     {
-        return view('personaje.index');
+        // Obtener los personajes con sus relaciones
+        $personajes = Personaje::with('actor', 'pelicula')->get();
+    
+        // Función para generar gradientes oscuros y vibrantes
+        function generateRandomGradient($usedGradients)
+        {
+            // Definir arrays de colores para cada parte del gradiente
+            $fromColors = ['gray-800', 'gray-700', 'blue-800', 'indigo-900', 'purple-900', 'red-800', 'pink-800', 'teal-800'];
+            $viaColors = ['purple-900', 'violet-900', 'blue-900', 'rose-900', 'teal-900', 'green-900', 'amber-900', 'fuchsia-900'];
+            $toColors = ['violet-800', 'pink-800', 'red-800', 'green-800', 'cyan-800', 'fuchsia-800', 'yellow-800', 'orange-800'];
+    
+            do {
+                // Seleccionar aleatoriamente un color de cada array para crear el gradiente
+                $from = $fromColors[array_rand($fromColors)];
+                $via = $viaColors[array_rand($viaColors)];
+                $to = $toColors[array_rand($toColors)];
+    
+                // Crear el gradiente
+                $gradient = "bg-gradient-to-br from-$from via-$via to-$to";
+            } while (in_array($gradient, $usedGradients)); // Verificar si el gradiente ya fue usado
+    
+            return $gradient;
+        }
+    
+        // Array para almacenar los gradientes ya asignados
+        $usedGradients = [];
+    
+        // Asignar un gradiente único a cada personaje
+        foreach ($personajes as $personaje) {
+            // Generar un gradiente único y almacenarlo
+            $personaje->color = generateRandomGradient($usedGradients);
+            $usedGradients[] = $personaje->color; // Guardar el gradiente en el array para evitar repeticiones
+        }
+    
+        // Retornar la vista con los personajes y sus gradientes generados dinámicamente
+        return view('personaje.index', compact('personajes'));
     }
+    
+    
 
     /**
      * Show the form for creating a new resource.

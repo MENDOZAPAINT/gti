@@ -12,8 +12,12 @@ class CineController extends Controller
      */
     public function index()
     {
-        return view(view: 'cine.index');
+        $cines = Cine::with('salas')->get(); 
+    
+        return view('cine.index', compact('cines'));
     }
+    
+    
 
     /**
      * Show the form for creating a new resource.
@@ -31,15 +35,15 @@ class CineController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'direccion' => 'required|string|max:255',
-            'telefono' => 'required|string|max:20', 
+            'telefono' => 'required|string|max:20',
         ]);
-    
+
         Cine::create([
             'nombre' => $request->nombre,
             'direccion' => $request->direccion,
             'telefono' => $request->telefono,
         ]);
-    
+
         return redirect()->route('cines.index')->with('success', 'Cine registrado con éxito.');
     }
 
@@ -48,7 +52,9 @@ class CineController extends Controller
      */
     public function show(Cine $cine)
     {
-        //
+        $salas = $cine->salas;
+        return view('cine.show', compact('cine', 'salas'));
+
     }
 
     /**

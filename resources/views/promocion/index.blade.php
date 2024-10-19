@@ -12,6 +12,25 @@
                     <x-link :href="route('promociones.create')" :active="request()->routeIs('promociones.create')">
                         {{ __('Promociones') }}
                     </x-link>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-brak border border-gray-600">
+                            <thead>
+                                <tr class="bg-gray-700">
+                                    <th class="py-2 px-4 border-b">Promocion</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($promociones as $promocion)
+                                    <tr class="">
+                                        <td class="py-2 px-4 border-b">{{$promocion->descripcion}}</td>
+                                    </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>

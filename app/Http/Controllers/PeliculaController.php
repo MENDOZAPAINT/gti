@@ -13,10 +13,23 @@ class PeliculaController extends Controller
      */
     public function index()
     {
-        $peliculas = Pelicula::with('opinions')->get();
+        // Cargar las películas con sus opiniones, personajes, funciones, salas y cines
+        $peliculas = Pelicula::with([
+            'opinions',
+            'personajes.actor',
+            'funcions.sala.cine' // Cargamos las salas y los cines asociados
+        ])->get();
+
         return view('pelicula.index', compact('peliculas'));
-        
     }
+    public function cinesDisponibles($id)
+    {
+        $pelicula = Pelicula::with(['funcions.sala.cine'])->findOrFail($id);
+        return view('pelicula.cine', compact('pelicula'));
+    }
+
+
+
 
     /**
      * Show the form for creating a new resource.

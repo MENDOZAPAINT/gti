@@ -7,8 +7,8 @@
     'rating' => 0 // Valor de la calificación de la película (puede ser decimal)
 ])
 
-<div {{ $attributes->merge(['class' => 'flex flex-col items-start my-2']) }}>
-    <span class="text-sm font-semibold text-blue-100 mr-2">{{ $label }}</span>
+<div {{ $attributes->merge(['class' => 'flex items-center my-0']) }}>
+    <span class="text-sm font-semibold text-blue-400 mr-4 w-20">{{ $label }}</span>
     <div class="flex">
         @for ($i = 1; $i <= $stars; $i++)
             <div class="relative inline-block">
@@ -22,7 +22,6 @@
             </div>
         @endfor
     </div>
-    {{-- <span class="text-sm text-gray-300 mt-1">{{ $rating }} de {{ $stars }} estrellas</span> --}}
 </div>
 
 <style>

@@ -14,19 +14,20 @@ class FuncionController extends Controller
      */
     public function index()
     {
-        return view('funcion.index');
+        $funciones = Funcion::with(['sala.cine', 'pelicula'])->get();
+        return view('funcion.index', compact('funciones'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $salas=Sala::all();
-        $peliculas=Pelicula::all();
+        $salas = Sala::all();
+        $peliculas = Pelicula::all();
 
-        return view('funcion.create',compact('salas','peliculas'));
-
+        return view('funcion.create', compact('salas', 'peliculas'));
     }
 
     /**
@@ -40,14 +41,14 @@ class FuncionController extends Controller
             'sala_id' => 'required|exists:salas,id',
             'pelicula_id' => 'required|exists:peliculas,id',
         ]);
-    
+
         Funcion::create([
             'dia_semana' => $request->dia_semana,
             'hora_comienzo' => $request->hora_comienzo,
             'sala_id' => $request->sala_id,
             'pelicula_id' => $request->pelicula_id,
         ]);
-    
+
         return redirect()->route('funciones.index')->with('success', 'Función registrada con éxito.');
     }
 
